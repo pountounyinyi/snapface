@@ -1,27 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { DatePipe, NgClass, NgStyle, UpperCasePipe } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import { FaceSnap } from '../models/face-snap';
 
 @Component({
   selector: 'app-face-snap',
-  standalone:true,
-  imports: [],
+  standalone: true,
+  imports: [
+    NgStyle,
+    NgClass,
+    UpperCasePipe,
+    DatePipe
+  ],
   templateUrl: './face-snap.html',
   styleUrls: ['./face-snap.scss'],
 })
 export class FaceSnapComponent implements OnInit {
-  title!: string;
-  description!: string;
-  imageUrl!: string;
-  createdDate!: Date;
-  snaps!: number;
+ @Input() faceSnap!:FaceSnap;
+
   snapButtonText!: string;
   userHasSnapped!: boolean;
+  myLargeNumber : number = 4667916.76;
 
   ngOnInit(): void {
-    this.title = 'Archibald';
-    this.description = 'Mon meilleur ami depuis tout petit !';
-    this.createdDate = new Date();
-    this.snaps = 6;
-    this.imageUrl = 'https://cdn.pixabay.com/photo/2015/05/31/16/03/teddy-bear-792273_1280.jpg';
     this.snapButtonText = 'Oh Snap !';
     this.userHasSnapped = false;
   }
@@ -35,13 +35,13 @@ export class FaceSnapComponent implements OnInit {
   }
 
   unSnap() {
-    this.snaps--;
+    this.faceSnap.removeSnap();
     this.snapButtonText = 'Oh Snap';
     this.userHasSnapped = false
   }
 
   snap() {
-    this.snaps++;
+    this.faceSnap.addSnap();
     this.snapButtonText = 'Ooops,unSnap!';
     this.userHasSnapped = true
   }
